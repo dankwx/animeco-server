@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 [ApiController]
 [Route("[controller]")]
@@ -15,13 +13,13 @@ public class AnimesController : ControllerBase
         _context = context;
     }
 
-    [HttpGet]
+    [HttpGet] // pega todos animes
     public IEnumerable<Anime> Get()
     {
         return _context.Animes.ToList();
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}")] // pega anime por id
     public async Task<ActionResult<Anime>> GetAnime(int id)
     {
         var anime = await _context.Animes.FindAsync(id);
@@ -34,7 +32,7 @@ public class AnimesController : ControllerBase
         return anime;
     }
 
-    [HttpPost]
+    [HttpPost] // adicionar anime
     public async Task<ActionResult<Anime>> PostAnime(Anime anime)
     {
         _context.Animes.Add(anime);
@@ -43,7 +41,7 @@ public class AnimesController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = anime.id }, anime);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id}")] // atualiza informações do anime por ID
     public async Task<IActionResult> PutAnime(int id, Anime anime)
     {
         if (id != anime.id)
@@ -72,7 +70,9 @@ public class AnimesController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
+
+
+    [HttpDelete("{id}")] // remove anime
     public async Task<IActionResult> DeleteAnime(int id)
     {
         var anime = await _context.Animes.FindAsync(id);
